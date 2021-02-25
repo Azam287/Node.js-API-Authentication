@@ -16,7 +16,13 @@ require('dotenv/config');
 //Connect to database
 mongoose.connect(process.env.DATABASE_CONNECT,
     { useNewUrlParser: true, useUnifiedTopology: true },
-    ()=>console.log("Database is connected"));
+    (err)=>{
+        if(err) {
+            console.log(err);
+            return;
+        }
+        console.log("Database is connected");
+    })
 
 //Middleware
 //app.use(express.json());
