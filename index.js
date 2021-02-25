@@ -3,12 +3,12 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyparser = require('body-parser');
 
-app.use(bodyparser.json());
 
 //import route
 const authRoute  = require('./routes/auth.js');
 
-
+//Middleware
+app.use(bodyparser.json());
 
 
 require('dotenv/config');
