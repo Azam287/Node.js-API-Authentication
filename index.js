@@ -9,7 +9,7 @@ const authRoute  = require('./routes/auth.js');
 
 //Middleware
 app.use(bodyparser.json());
-
+//app.use(express.json());
 
 require('dotenv/config');
 
@@ -18,14 +18,11 @@ mongoose.connect(process.env.DATABASE_CONNECT,
     { useNewUrlParser: true, useUnifiedTopology: true },
     (err)=>{
         if(err) {
-            console.log(err);
+            console.log(err.message);
             return;
         }
         console.log("Database is connected");
     })
-
-//Middleware
-//app.use(express.json());
 
 
 //Route middleware

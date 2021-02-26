@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../model/User.js');
+const bcrypt = require('bcryptjs');
 const {registerValidation} = require('../validation');
 
 
@@ -16,13 +17,21 @@ router.post('/register', async (req,res)=>{
     const emailExist = await User.findOne({email: req.body.email});
     if (emailExist) return res.status(400).send('Email already exists');
 
+    //Hash passwords
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+
+
     //create new user
     const user  =  new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: hashedPassword,
         date: req.body.date
-    });
+    })
+    //.then(()=> user.save())
+    //.catch(error=>{res.send(error.details[0].message)})
 
     //catch the error
     /*functionDB()
@@ -32,12 +41,13 @@ router.post('/register', async (req,res)=>{
     .catch(error=>{
         res.send(error.details[0].message);
     });*/
+
     try{
-        const savedUser =  user.then.save();
+        const savedUser =  await user.save();
         //console.res.send(savedUser);
         res.json(savedUser);
     }catch(err){
-        res.status(400).send(err);
+        res.status(400).send(err.message);
         //res.json({message: JSON.stringify(err.message)});
     }
 });
