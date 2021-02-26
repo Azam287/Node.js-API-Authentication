@@ -6,6 +6,7 @@ const bodyparser = require('body-parser');
 
 //import route
 const authRoute  = require('./routes/auth.js');
+const postRoute = require('./routes/posts');
 
 //Middleware
 app.use(bodyparser.json());
@@ -27,7 +28,7 @@ mongoose.connect(process.env.DATABASE_CONNECT,
 
 //Route middleware
 app.use('/api/user', authRoute);
-
+app.use('/api/posts', postRoute);
 
 
 //listening server
